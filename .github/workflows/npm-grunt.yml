@@ -25,9 +25,4 @@ jobs:
     - name: Build
       run: |
         npm install
-        npm run start
-        
-    - name: Stop further execution
-      if: ${{ always() }}
-      run: exit 0   
-    
+        npm run start || exit 1
