@@ -1,28 +1,32 @@
-name: NodeJS 
-
+name: NodeJS
+ 
 on:
   push:
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
-
+ 
 jobs:
   build:
     runs-on: ubuntu-latest
-
+ 
     strategy:
       matrix:
         node-version: [18]
-
+ 
     steps:
     - uses: actions/checkout@v4
-
+ 
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v3
       with:
         node-version: ${{ matrix.node-version }}
-
+ 
     - name: Build
       run: |
         npm install
         npm run start
+    # Add a conditional step to stop further execution if there are no errors
+    - name: Stop further execution if no errors
+      if: ${{ failure() }}
+      run: exit 1
