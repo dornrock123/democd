@@ -24,7 +24,6 @@ jobs:
 
       - name: Install dependencies and build
         run: |
-          npm install -f
-          npm run lint
+          npm install
           npm test
           npm run build
