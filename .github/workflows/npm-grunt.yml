@@ -1,33 +1,30 @@
-name: NodeJS 
+name: NodeJS
 
 on:
   push:
-    branches: [ "main" ]  # เรียกใช้งาน workflow เมื่อมีการ push ไปยังสาขา main
+    branches: [ "main" ]
   pull_request:
-    branches: [ "main" ]  # เรียกใช้งาน workflow เมื่อมีการเปิด pull request ที่มีเป้าหมายเป็นสาขา main
+    branches: [ "main" ]
 
 jobs:
   build:
-    runs-on: ubuntu-latest  # ใช้ระบบปฏิบัติการ Ubuntu เวอร์ชันล่าสุดเป็นสภาพแวดล้อมการทำงาน
+    runs-on: ubuntu-latest
 
     strategy:
       matrix:
-        node-version: [18]  # กำหนดแมทริกซ์ด้วยเวอร์ชัน Node.js 18
+        node-version: [18]
 
     steps:
-    - uses: actions/checkout@v4  # ขั้นตอนการเช็คเอาท์โค้ดจากรีโพสิทอรี
+      - uses: actions/checkout@v4
 
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v3  # ขั้นตอนการตั้งค่า Node.js
-      with:
-        node-version: ${{ matrix.node-version }}  # กำหนดเวอร์ชัน Node.js จากแมทริกซ์
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
 
-    - name: Build
-      run: |
-        npm install  # ติดตั้ง dependencies ของโปรเจกต์
-
-        run: npm run lint
-
-        run: npm test
-
-        run: npm run build
+      - name: Install dependencies and build
+        run: |
+          npm install
+          npm run lint
+          npm test
+          npm run build
